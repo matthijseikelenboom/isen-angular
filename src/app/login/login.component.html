@@ -1,0 +1,14 @@
+<div class="center" fxLayout="row" fxLayoutAlign="space-evenly center">
+  <mat-card class="card-login" fxLayout="column">
+    <h3>Hoek hoveniers - Login</h3>
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput [(ngModel)]="email" type="text" placeholder="Email" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Wachtwoord</mat-label>
+      <input matInput [(ngModel)]="password" type="password" placeholder="Wachtwoord" />
+    </mat-form-field>
+    <button mat-stroked-button (click)="onLoggin()">Inloggen</button>
+  </mat-card>
+</div>

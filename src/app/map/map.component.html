@@ -1,0 +1,59 @@
+<app-navbar>
+  <div class="navbar-content-wrapper" fxLayout="column">
+    <h1>Locatie apparaten</h1>
+    <div fxFlex fxLayout="row" fxLayoutAlign="space-evenly start">
+      <mat-card class="list-spacer">
+        <mat-list>
+          <h3 mat-subheader>Bussen</h3>
+          <mat-list-item class="list-item-button" *ngFor="let marker of (markers | async)">
+            <button mat-stroked-button class="list-item-button" (click)="onDeviceButtonClick(infowindow, marker)">{{ marker.id }}</button>
+            <!-- <button mat-stroked-button (click)="removeMarker(marker)">Delete</button> -->
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <h3 mat-subheader>ViLoc</h3>
+          <mat-list-item *ngFor="let viloc of vilocTags | async">
+            <button mat-stroked-button (click)="onDeviceButtonClick(infowindow, viloc)">{{ viloc.code }}</button>
+            <!-- <button mat-button (click)="removeMarker(marker)">Delete</button> -->
+          </mat-list-item>
+        </mat-list>
+      </mat-card>
+
+      <agm-map
+        #gm
+        class="map"
+        [latitude]="mapLat"
+        [longitude]="mapLng"
+        [zoom]="12"
+        [usePanning]="true"
+        [disableDefaultUI]="false"
+        [zoomControl]="false"
+        [mapTypeControl]="true"
+        (mapReady)="mapReady($event)"
+      >
+        <agm-marker
+          *ngFor="let marker of (markers | async); let i = index"
+          [latitude]="marker.geometry.coordinates.lat"
+          [longitude]="marker.geometry.coordinates.lng"
+          [label]="busLabel"
+          (markerClick)="onMarkerClick(infowindow, marker.id)"
+        >
+          <agm-info-window #infowindow>
+            <div [innerHTML]="infoWindowContent"></div>
+          </agm-info-window>
+        </agm-marker>
+
+        <agm-marker
+          *ngFor="let viloc of (vilocTags | async); let i = index"
+          [latitude]="viloc.geometry.coordinates.lat"
+          [longitude]="viloc.geometry.coordinates.lng"
+          [label]="vilocLabel"
+          (markerClick)="onVilocMarkerClick(infowindow, viloc)"
+        >
+          <agm-info-window #infowindow>
+            <div [innerHTML]="infoWindowContent"></div>
+          </agm-info-window>
+        </agm-marker>
+      </agm-map>
+    </div>
+  </div>
+</app-navbar>
